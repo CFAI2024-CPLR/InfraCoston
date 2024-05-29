@@ -38,7 +38,7 @@ les_dns:
 bdd:
   name: infracoston_bdd1
   user_root: root
-  password_root: 2^2egale4
   user: infracoston
-  password: 2^2egale4
-  ssh_password: 2^2egale4
+
+# Il faut trouver un moyen qui empêche de partager un mot de passe 
+# ansible-vault par exemple

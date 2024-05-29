@@ -7,7 +7,10 @@ packages:
   - mariadb-server
   - python3-pymysql
 
-mariadb_root_password: "2^2egale4"
+
 mariadb_database: "infracoston_bdd1"
 mariadb_user: "infracoston"
-mariadb_password: "2^2egale4"
+
+# à définir dans un ansible-vault
+mariadb_password: 
+mariadb_root_password: 
