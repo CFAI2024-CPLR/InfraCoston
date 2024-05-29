@@ -11,13 +11,13 @@ fi
 
 sleep 10
 
-ANSIBLE_HOST_KEY_CHECKING=False /automatisation/ansible/.venv/bin/ansible-playbook -i /automatisation/ansible/inventory/inventory.yaml /automatisation/ansible/playbook/install_packages.yaml -l $name
-ANSIBLE_HOST_KEY_CHECKING=False /automatisation/ansible/.venv/bin/ansible-playbook -i /automatisation/ansible/inventory/inventory.yaml /automatisation/ansible/playbook/install_users.yaml -l $name
+ANSIBLE_HOST_KEY_CHECKING=False ../ansible/.venv/bin/ansible-playbook -i ../ansible/inventory/inventory.yaml ../ansible/playbook/install_packages.yaml -l $name
+ANSIBLE_HOST_KEY_CHECKING=False ../ansible/.venv/bin/ansible-playbook -i ../ansible/inventory/inventory.yaml ../ansible/playbook/install_users.yaml -l $name
 
 if [ "$class" = "websites" ]; then
-  ANSIBLE_HOST_KEY_CHECKING=False /automatisation/ansible/.venv/bin/ansible-playbook -i /automatisation/ansible/inventory/inventory.yaml /automatisation/ansible/playbook/copy_files.yaml -l $name
+  ANSIBLE_HOST_KEY_CHECKING=False ../ansible/.venv/bin/ansible-playbook -i ../ansible/inventory/inventory.yaml ../ansible/playbook/copy_files.yaml -l $name
 fi
 
 if [ "$class" = "bdd" ]; then
-  ANSIBLE_HOST_KEY_CHECKING=False /automatisation/ansible/.venv/bin/ansible-playbook -i /automatisation/ansible/inventory/inventory.yaml /automatisation/ansible/playbook/configure_bdd.yaml -l $name
+  ANSIBLE_HOST_KEY_CHECKING=False ../ansible/.venv/bin/ansible-playbook -i ../ansible/inventory/inventory.yaml ../ansible/playbook/configure_bdd.yaml -l $name
 fi
