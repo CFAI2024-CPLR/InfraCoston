@@ -14,11 +14,20 @@ sudo su - infracoston
 >
 > Il faut donc renseigner le MDP situé dans le fichier [administration.yaml](./documentation/administration.yaml)
 
+> Quel dommage ! Avec mon agent ssh, et un git clone je devrais pouvoir tout faire
+>
+> Vous auriez pu imaginer un script shell qui fasse l'installation de terraform et d'ansible :)
+
+
+> Aïe aïe aïe, le fichier password.env lisible dans le GIT ...
+> 
+> Mon compte javond@pve pouvait faire les actions, il suffisait de demander de remplir un fichier (ou de demander de remplir des variables d'environnements)
+
 ```bash
 # Construction des containers
 cd /automatisation/terraform
 . /.venv/bin/activate
-source passwords.env
+
 ./terraform apply
 
 # Vérification des containers

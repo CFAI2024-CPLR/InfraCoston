@@ -39,11 +39,14 @@ Une fois les conteneurs créés, le projet doit lancer un ou plusieurs playbooks
     * egrange
     * apiraud
     * javond
-    * infracoston (utilisateur qui permet de se connecter de Terraform aux containers Ansible)
+    * infracoston (utilisateur qui permet de se connecter de Terraform aux containers Ansible) (c'est dommage, il ne devrait pas y avoir besoin d'un utilisateur supplémentaire)
+
 - Ajouter les utilisateurs au groupe **sudo**
 - Pour chaque utilisateur **sauf infracoston**:
     - Créer son **/home**
     - Créer le fichier **.ssh/authorized_keys** et renseigner la clé SSH de l'utilisateur
+
+> à la main ???? Dommage
 
 ### Configuration IP
 * Configuration d'une adresse IPv6 fixe pour le container terraform.
@@ -57,25 +60,23 @@ iface eth0 inet6 static
     address 2a03:5840:111:1024:cafe:cafe:cafe:0001
     netmask 64
 ```
+
+> à la main ???? Dommage
+
 * Les autres IP sont générées par terraform
 
 ### Configuration SSH
 * :warning: Aucune connexion ne se fait par mot de passe.
 * Créer une clé SSH pour le container Terraform :
 ```bash
-# Dans le dossier .ssh
-# Remplacer <name> par le nom de la clé
-ssh keygen -f <name>
+# Dans le dossier .ssh (pourquoi ?)
+# Remplacer <file> par le chemin de la clé
+ssh-keygen -f <file>
 ```
 
 #### Sécurité
-- Mise en place d'un useragent pour permettre la connexion SSH sans mot de passe.
-```bash
-# On place le ssh-agent dans le .bashrc de notre utilisateur
-nano /home/infracoston/.bashrc
-eval "$(ssh-agent -s)"
-ssh-add /automatisation/ansible/ssh/infracoston
-```
+
+- Il suffit d'ajouter la clé SSH de tout les participants, afin que chacun puisse lancer les playbooks
 
 ## Configuration des DNS
 * Travaux effectués :
@@ -119,10 +120,10 @@ Commande : source passwords.env
 ```
 * Appliquer les modifications :
 ```bash
-./terraform apply -target 'proxmox_lxc.infracoston["infracoston-adminweb"]' -auto-approve
-./terraform apply -target 'proxmox_lxc.infracoston["infracoston-vitrineweb"]' -auto-approve
-./terraform apply -target 'proxmox_lxc.infracoston["infracoston-bdd1"]' -auto-approve
+./terraform apply [-auto-approve]
 ```
+
+> L'idée générale était de permettre à n'importe qui qui dispose de sa clef ssh renseignée, de faire un git clone et de lancer le terraform... Avec ansible auto ou pas...
 
 ## Installation et configuration d'Ansible
 * Création d'un environnement python
@@ -132,8 +133,11 @@ python3 -m venv .venv
 ```
 * Installation d'ansible
 ```bash
-pip3 installe ansible
+pip3 install ansible
 ```
+
+> install pas installe
+
 * Créer le fichier de configuration
 ```bash
 ansible-config init --disabled > ansible.cfg
@@ -142,9 +146,7 @@ ansible-config init --disabled > ansible.cfg
 * Créer son inventaire
 ```bash
 # Définir les groupes et les hôtes
-mkdir inventory
-mkdir inventory/host_vars
-mkdir inventory/group_vars
+mkdir inventory/{host_vars,group_vars} -p
 ```
 
 * Fichier de configuration de l'[inventaire]((./../automatisation/ansible/inventory/inventory.yaml))
@@ -166,7 +168,7 @@ nano inventory/group_vars/infracoston.yaml
 
 * Lister son inventaire
 ```bash
-ansible-inventory -i inventory/inventory.yaml --list
+ansible-inventory -i inventory/ --list
 ```
 
 * Utiliser la commande de ping
